@@ -19,10 +19,10 @@ class Receiver(Base):
     name = Column(String, index=True)
     address = Column(String, index=True)
     phone_number = Column(String, index=True)
-    # created_at = Column(DateTime(timezone=True), server_default=func.now())
-    # updated_at = Column(
-    #     DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
-    # )
+    created_at = Column(DateTime(timezone=True), server_default=func.now())
+    updated_at = Column(
+        DateTime(timezone=True), server_default=func.now(), onupdate=func.now()
+    )
     item: Mapped[List["Item"]] = relationship(back_populates="receiver")
 
 

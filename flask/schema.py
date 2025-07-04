@@ -4,10 +4,9 @@ import decimal
 
 
 class ItemBase(BaseModel):
-    created_at: datetime.datetime | None = Field(default_factory=datetime.datetime.now)
-    updated_at: datetime.datetime | None = Field(default_factory=datetime.datetime.now)
     weight: float = 0.0
     service_price: decimal.Decimal = 0.0
+    receiver_id: int
 
 
 # Pydantic -> ORM
@@ -18,6 +17,8 @@ class ItemCreate(ItemBase):
 # ORM -> Pydantic
 class ItemResponse(ItemBase):
     id: int
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
 
     class Config:
         from_attribute = True
@@ -37,6 +38,8 @@ class ReceiverCreate(ReceiverBase):
 
 class ReceiverResponse(ReceiverBase):
     id: int
+    created_at: datetime.datetime
+    updated_at: datetime.datetime
 
     class Config:
         from_attribute = True
@@ -44,6 +47,13 @@ class ReceiverResponse(ReceiverBase):
 
 class ItemWithReceiverResponse(ItemResponse):
     receiver: ReceiverResponse
+
+    class Config:
+        from_attribute = True
+
+
+class ReceiverWithItemsResponse(ReceiverResponse):
+    items: list[ItemResponse] = []
 
     class Config:
         from_attribute = True
